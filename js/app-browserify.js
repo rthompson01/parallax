@@ -5,22 +5,56 @@ require("es5-shim")
 // es6 polyfills, powered by babel
 require("babel/register")
 
-var Promise = require('es6-promise').Promise
-// just Node?
-// var fetch = require('node-fetch')
-// Browserify?
-// require('whatwg-fetch') //--> not a typo, don't store as a var
+import {Promise} from 'es6-promise'
+import React , {Component} from 'react'
+import _ from 'underscore'
 
-// other stuff that we don't really use in our own code
-// var Pace = require("../bower_components/pace/pace.js")
+class Slanted extends Component {
+	Constructor(...p){
+		super(...p)
+		this.state = {
+			images: [],
+			scroll: 0
+		}
+		var image_urls [
+			'http://s3.amazonaws.com/rapgenius/grey-goose-lineup2.jpg',
+			'http://www.bearhandsart.com/wp-content/uploads/2012/05/the-scream.jpg'
+		]
+		var temp = Array(10).join(',-').split('-')
+		len = image_urls.length
+		this.state.images = temp.map(() => image_urls[Math.floor(Math.random()*len)])
+		this._setScroll = _.debounce((e) => {
+			this.setState({
+				scroll: Math.floor(window.scrollY)
+			})
+		},16)
+	}
+	componentDidMount(){
+		window.addEventListener('scroll', this._setScroll)
+	}
+	componentDidUnMount(){
+		window.removeEventListener('scroll', this._setScroll)
+	}
+	render(){
+		return (<ul className="slanted">
+			{ this.state.images.map((url) => <SlantedImage src={url} scroll={this.state.scroll} />)}    		 
+    	</ul>)
+	}	
+}
 
-// require your own libraries, too!
-// var Router = require('./app.js')
+class SlantedImage extends Component {
+	constructor(...p){
+		super(...p)
+	}
+	render(){
+		//console.log(this.props.scroll)
+		var style = {
+			backgroundImage: 'url(${this.props.src})',
+			backgroundPosition: 'center ${.5 - this.props.scroll/400)*100}%'
+		}
+		return(<li style={style}></li>)
+			//<img src={this.props.src} style={style}/>
+	}
+}
 
-// window.addEventListener('load', app)
-
-// function app() {
-    // start app
-    // new Router()
-// }
-
+React.render(<Slanted />, document.querySelector('.container'))

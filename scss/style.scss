@@ -1,7 +1,5 @@
-
 @import "../bower_components/normalize-css/normalize.css";
 @import "../bower_components/typeplate-starter-kit/css/typeplate.css";
-
 /**
  * BOX-SIZING
  */
@@ -11,7 +9,6 @@
 *:after {
     box-sizing: border-box;
 }
-
 /**
  * GRIDS
  */
@@ -36,7 +33,9 @@
     }
 }
 
-@define-mixin gridify $col, $width, $gutter: 2 {
+@define-mixin gridify $col,
+$width,
+$gutter: 2 {
     @media only screen and (min-width: $(width)px) {
         .grid-$(col)-$(width) {
             & > * {
@@ -47,9 +46,11 @@
     }
 }
 
-@mixin gridify 2, 400 {}
-@mixin gridify 4, 600 {}
+@mixin gridify 2,
+400 {}
 
+@mixin gridify 4,
+600 {}
 /**
  * PACE (automatic pre-loader thingy)
  */
@@ -87,3 +88,64 @@ img {
 /**
  * YOUR CODE HERE
  */
+
+/** USING BACKGROUND IMAGES WITH BACKGROUND-ATTACHMENT (fixed or local)
+ul {
+    list-style-type: none;
+    padding: 0;
+    li {
+        min-height: 100vh;
+        margin-bottom: 1rem;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center center;
+        &:nth-child(3n) {
+            background-image: linear-gradient(90deg, #E55D87 10%, #5FC384 90%);
+        }
+    }
+}
+**/
+
+ul.slanted {
+    list-style-type: none;
+    padding: 0;
+    li {
+        min-height: 30vh;
+        margin-bottom: 1rem;
+        position: relative;
+        overflow: hidden;
+        transform: skewY(15deg) translateZ(0);
+        animation: animateRight .25s ease both;
+        background-attachment: local;
+        background-size: cover;
+        background-position: center center;
+
+
+        /**ANIMATION**/
+        /**&:nth-child(2) { animation-delay: 1.1s }
+        &:nth-child(3) { animation-delay: 1.2s } 
+        &:nth-child(4) { animation-delay: 1.3s }**/
+
+        /**img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            //transform: translate(-50%, -50%) skewY(-15deg);
+        }**/
+        
+    }
+}
+
+@keyframes animateRight {
+    0%{
+       transform: skewY(15deg) translateX(-100%);
+       opacity 1; 
+    }
+    100%{
+        transform: skewY(15deg);
+        opacity: 1;
+    }
+} 
+
+
+
